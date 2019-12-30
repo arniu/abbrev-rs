@@ -1,6 +1,6 @@
 [package]
 name = "abbrev"
-version = "0.1.0"
+version = "0.2.0"
 authors = ["Arniu Tseng <arniu2006@gmail.com>"]
 
 readme = "README.md"
