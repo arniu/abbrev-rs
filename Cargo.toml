@@ -1,0 +1,11 @@
+[package]
+name = "abbrev"
+version = "0.1.0"
+authors = ["Arniu Tseng <arniu2006@gmail.com>"]
+
+readme = "README.md"
+description = "Like node's Abbrev module"
+repository = "https://github.com/arniu/abbrev-rs"
+license = "MIT"
+
+[dependencies]
