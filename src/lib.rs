@@ -1,54 +1,33 @@
 use std::collections::HashMap;
 
-fn diff(a: usize, b: usize) -> usize {
-    if a > b {
-        a - b
-    } else {
-        b - a
-    }
-}
-
 pub fn abbrev<'a>(xs: &'a [&str]) -> HashMap<String, &'a str> {
-    let space = " ";
-
     let mut result = HashMap::new();
     let mut sorted = xs.to_owned();
 
     sorted.sort();
-    sorted.push(space); // append `space` to handle the last one
-    sorted.windows(2).fold(space, |prev, curr_next| {
+    sorted.push(""); // append "" to handle the last one
+    sorted.windows(2).fold(0, |matched, curr_next| {
         let curr = curr_next[0];
         let next = curr_next[1];
         if *curr == *next {
-            return curr;
+            return matched;
         }
 
-        let padding = space.repeat(diff(prev.len(), next.len()));
-        let prev_chars = prev.chars().chain(padding.chars());
-        let next_chars = next.chars().chain(padding.chars());
-        let count = curr
+        let matches = curr
             .chars()
-            .zip(prev_chars.zip(next_chars))
-            .scan((true, true), |(pe, ne), (c, (p, n))| {
-                *pe = *pe && (c == p);
-                *ne = *ne && (c == n);
-
-                if *pe || *ne {
-                    Some(true)
-                } else {
-                    None
-                }
-            })
+            .zip(next.chars())
+            .take_while(|(c, n)| c == n)
             .count();
 
-        let start = count + 1;
-        for n in start..curr.len() {
+        let max = matches.max(matched);
+        for n in (max + 1)..curr.len() {
             result.insert(curr.chars().take(n).collect(), curr);
         }
+
         // one can always be accessed by itself
         result.insert(curr.to_string(), curr);
 
-        curr
+        matches
     });
 
     result
