@@ -4,8 +4,17 @@ version = "0.2.0"
 authors = ["Arniu Tseng <arniu2006@gmail.com>"]
 
 readme = "README.md"
-description = "Like node's Abbrev module"
+description = "Like Ruby's Abbrev module"
 repository = "https://github.com/arniu/abbrev-rs"
 license = "MIT"
 
-[dependencies]
+categories = ["command-line-interface"]
+keywords = [
+	"argument",
+	"arg",
+	"cli"
+]
+
+[badges]
+travis-ci = { repository = "arniu/abbrev-rs" }
+maintenance = {status = "actively-developed"}

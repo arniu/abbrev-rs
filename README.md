@@ -3,7 +3,7 @@
 [![Build Status](https://travis-ci.org/arniu/abbrev-rs.svg?branch=master)](https://travis-ci.org/arniu/abbrev-rs)
 [![Crates.io](https://img.shields.io/crates/v/abbrev)](https://crates.io/crates/abbrev)
 
-Like node's Abbrev module
+Like Ruby's Abbrev module
 
 ## Example
 

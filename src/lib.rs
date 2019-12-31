@@ -38,9 +38,57 @@ mod tests {
     use abbrev;
 
     #[test]
-    fn it_works() {
-        let xs = vec!["foo", "fool", "folding", "flop"];
-        let map = abbrev(&xs);
+    fn with_nothing() {
+        let words = vec![];
+        let map = abbrev(&words);
+
+        assert!(map.is_empty());
+    }
+
+    #[test]
+    fn with_one_only() {
+        let words = vec!["foo"];
+        let map = abbrev(&words);
+
+        for key in vec!["f", "fo", "foo"] {
+            assert_eq!(&"foo", map.get(key).unwrap());
+        }
+
+        assert_eq!(3, map.len());
+    }
+
+    #[test]
+    fn with_two_same() {
+        let words = vec!["foo", "foo"];
+        let map = abbrev(&words);
+
+        for key in vec!["f", "fo", "foo"] {
+            assert_eq!(&"foo", map.get(key).unwrap());
+        }
+
+        assert_eq!(3, map.len());
+    }
+
+    #[test]
+    fn with_two_different() {
+        let words = vec!["foo", "bar"];
+        let map = abbrev(&words);
+
+        for key in vec!["f", "fo", "foo"] {
+            assert_eq!(&"foo", map.get(key).unwrap());
+        }
+
+        for key in vec!["b", "ba", "bar"] {
+            assert_eq!(&"bar", map.get(key).unwrap());
+        }
+
+        assert_eq!(6, map.len());
+    }
+
+    #[test]
+    fn well_done() {
+        let words = vec!["foo", "fool", "folding", "flop"];
+        let map = abbrev(&words);
 
         for key in vec!["fl", "flo", "flop"] {
             assert_eq!(&"flop", map.get(key).unwrap());
