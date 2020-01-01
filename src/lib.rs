@@ -1,34 +1,35 @@
 use std::collections::HashMap;
+use std::iter::once;
 
 pub fn abbrev<'a>(xs: &'a [&str]) -> HashMap<String, &'a str> {
     let mut result = HashMap::new();
     let mut sorted = xs.to_owned();
 
     sorted.sort();
-    sorted.push(""); // append "" to handle the last one
-    sorted.windows(2).fold(0, |matched, curr_next| {
-        let curr = curr_next[0];
-        let next = curr_next[1];
-        if *curr == *next {
-            return matched;
-        }
+    sorted
+        .iter()
+        .zip(sorted.iter().skip(1).chain(once(&"")))
+        .fold(0, |matched, (&curr, &next)| {
+            if *curr == *next {
+                return matched;
+            }
 
-        let matches = curr
-            .chars()
-            .zip(next.chars())
-            .take_while(|(c, n)| c == n)
-            .count();
+            let matches = curr
+                .chars()
+                .zip(next.chars())
+                .take_while(|(a, b)| a == b)
+                .count();
 
-        let max = matches.max(matched);
-        for n in (max + 1)..curr.len() {
-            result.insert(curr.chars().take(n).collect(), curr);
-        }
+            let max = matches.max(matched);
+            for n in (max + 1)..curr.len() {
+                result.insert(curr.chars().take(n).collect(), curr);
+            }
 
-        // one can always be accessed by itself
-        result.insert(curr.to_string(), curr);
+            // one can always be accessed by itself
+            result.insert(curr.to_string(), curr);
 
-        matches
-    });
+            matches
+        });
 
     result
 }
